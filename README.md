@@ -1,26 +1,55 @@
 # TrustFarm
 
-A software-only smart-agriculture prototype built from the supplied case study. It simulates soil-moisture, temperature and humidity readings, checks reliability, flags missing/stale/inconsistent data, and supplies a cautious irrigation recommendation.
+TrustFarm is a **software-only**, trust-aware smart-agriculture monitoring project. It generates clearly labelled simulated sensor readings, checks their freshness, completeness, physical validity and consistency, then provides a cautious irrigation decision. It does not use physical sensors or control equipment.
 
-## Run locally
+## Features
+
+- Five configurable virtual sensors; bounded local history and seeded, repeatable simulation.
+- Normal, missing, stale, out-of-range, spike, stuck, outage and mixed-fault conditions.
+- Transparent reliability score: `100 × (0.30F + 0.25C + 0.20V + 0.25K)`.
+- `IRRIGATION_RECOMMENDED`, `NO_IRRIGATION_RECOMMENDED`, `VERIFY_DATA`, and `INSUFFICIENT_DATA` outcomes.
+- Versioned Flask API, React/Vite responsive dashboard, CSV export, and reproducible evaluation metrics.
+
+## Requirements
+
+- Python 3.11+ (tested with Python 3.13)
+- Node.js 20+ and npm (tested with Node 22)
+
+## Run locally (Windows PowerShell)
+
+Open **two** terminals in the project root.
+
+**Terminal 1 – API**
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+python -m pip install -r backend\requirements.txt
 python app.py
 ```
 
-Then open `http://127.0.0.1:5000`.
+API health check: `http://127.0.0.1:5000/api/v1/health`
 
-## Simulations
+**Terminal 2 – dashboard**
 
-The dashboard buttons add one virtual reading in each condition:
+```powershell
+cd frontend
+npm install
+npm run dev
+```
 
-- Normal
-- Dry soil
-- Missing value
-- Stale timestamp
-- Sudden anomalous moisture change
+Open the URL printed by Vite (normally `http://localhost:5173`). The dashboard reads from `http://127.0.0.1:5000/api/v1` by default. Copy `.env.example` to `frontend/.env` only when a different API URL is required.
 
-The reliability score uses the case-study weights: freshness 30%, completeness 25%, validity 20%, and consistency 25%. Readings below 85/100 produce **Verify data first** rather than an automatic irrigation recommendation.
+## Test and build
+
+```powershell
+python -m unittest discover -s backend\tests -v
+cd frontend
+npm run build
+```
+
+## Safety and limitations
+
+The moisture threshold is a demonstrative configuration, not universal agricultural advice. Reliability is an algorithmic data-quality assessment, not a probability that a sensor is correct. Experimental metrics are calculated only from controlled, labelled simulation faults and do not establish real-farm performance.
+
+See [docs](docs/) for architecture, API, data dictionary, methodology, project plan, testing report, and user guide.
