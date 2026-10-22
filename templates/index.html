@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TrustFarm | Smart Agriculture</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <main class="shell">
+      <header><div><p class="eyebrow">VIRTUAL IOT · TRUST-AWARE</p><h1>Trust<span>Farm</span></h1></div><div class="live"><i></i> System online</div></header>
+      <section class="hero"><div><p class="eyebrow">FIELD OVERVIEW</p><h2>Grow with confidence,<br>not just data.</h2><p>Virtual sensor readings are checked for freshness, completeness and consistency before a recommendation is made.</p></div><div class="decision-card"><p class="eyebrow">IRRIGATION ADVICE</p><strong id="decision">Loading…</strong><p id="explanation"></p><div class="trust-row"><span>Trust score</span><b id="trust">—</b></div><div class="meter"><span id="meter"></span></div></div></section>
+      <section class="metrics" aria-label="Latest sensor readings"><article><span>Soil moisture</span><strong id="moisture">—</strong><small>Configured threshold: <b id="threshold">30%</b></small></article><article><span>Temperature</span><strong id="temperature">—</strong><small>Latest virtual reading</small></article><article><span>Humidity</span><strong id="humidity">—</strong><small>Latest virtual reading</small></article><article><span>Data age</span><strong id="age">—</strong><small>Freshness assessment</small></article></section>
+      <section class="grid"><article class="panel chart-panel"><div class="panel-head"><div><p class="eyebrow">ANALYTICS</p><h3>Soil moisture trend</h3></div><span>Last 12 readings</span></div><div id="chart" class="chart"></div><div class="legend"><i></i> Soil moisture <em></em> Threshold</div></article><article class="panel"><p class="eyebrow">DATA QUALITY</p><h3>Reliability factors</h3><div id="factors" class="factors"></div><div class="alert" id="alerts">No data-quality warnings.</div></article></section>
+      <section class="simulator panel"><div><p class="eyebrow">CONTROLLED EXPERIMENTS</p><h3>Inject a virtual sensor condition</h3><p>Test the dashboard against normal, dry, missing, stale and inconsistent readings.</p></div><div class="buttons"><button data-scenario="normal">Normal</button><button data-scenario="dry">Dry soil</button><button data-scenario="missing">Missing</button><button data-scenario="stale">Stale</button><button data-scenario="anomaly">Anomaly</button></div></section>
+      <footer>TrustFarm is a software simulation for decision support, not a replacement for field validation.</footer>
+    </main><script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>
