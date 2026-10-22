@@ -23,4 +23,4 @@ The dashboard buttons add one virtual reading in each condition:
 - Stale timestamp
 - Sudden anomalous moisture change
 
-The reliability score uses the case-study weights: freshness 30%, completeness 25%, validity 20%, and consistency 25%. Readings below 70/100 produce **Verify data first** rather than an automatic irrigation recommendation.
+The reliability score uses the case-study weights: freshness 30%, completeness 25%, validity 20%, and consistency 25%. Readings below 85/100 produce **Verify data first** rather than an automatic irrigation recommendation.

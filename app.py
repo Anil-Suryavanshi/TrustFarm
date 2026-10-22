@@ -8,6 +8,7 @@ from flask import Flask, jsonify, render_template, request
 app = Flask(__name__)
 MOISTURE_THRESHOLD = 30
 MAX_AGE_MINUTES = 20
+MINIMUM_ACTION_SCORE = 85
 history: list[dict] = []
 
 
@@ -55,13 +56,15 @@ def analyze(reading: dict) -> dict:
     if (moisture is not None and not 0 <= moisture <= 100) or (temperature is not None and not -10 <= temperature <= 60) or (humidity is not None and not 0 <= humidity <= 100):
         components["validity"] = 0.0
         issues.append("A reading is outside its physical range")
-    if moisture is not None and history:
-        prior = history[-1].get("soil_moisture")
+    if moisture is not None and len(history) > 1:
+        # The dashboard analyses the newest item, so compare it with the
+        # immediately preceding observation rather than with itself.
+        prior = history[-2].get("soil_moisture")
         if prior is not None and abs(moisture - prior) > 22:
             components["consistency"] = 0.25
             issues.append("Sudden soil-moisture change detected")
     score = round(100 * (0.30 * components["freshness"] + 0.25 * components["completeness"] + 0.20 * components["validity"] + 0.25 * components["consistency"]))
-    if score < 70:
+    if score < MINIMUM_ACTION_SCORE:
         decision = "Verify data first"
         explanation = "The system abstained because the latest data is not sufficiently reliable."
     elif moisture < MOISTURE_THRESHOLD:
